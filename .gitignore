@@ -1,0 +1,6 @@
+data/
+*.csv
+*.pt
+*.pth
+mlruns/
+__pycache__/
