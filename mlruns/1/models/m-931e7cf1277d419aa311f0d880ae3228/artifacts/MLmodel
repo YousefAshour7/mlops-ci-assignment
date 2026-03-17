@@ -1,0 +1,23 @@
+artifact_path: file:///C:/Users/youse/Downloads/MLOPS Asg1/mlruns/1/models/m-931e7cf1277d419aa311f0d880ae3228/artifacts
+flavors:
+  python_function:
+    config:
+      device: null
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.10.19
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 2.10.0+cpu
+mlflow_version: 3.10.1
+model_id: m-931e7cf1277d419aa311f0d880ae3228
+model_size_bytes: 410661
+model_uuid: m-931e7cf1277d419aa311f0d880ae3228
+prompts: null
+run_id: a1bb77d29ebd4d539533342ce4831a64
+utc_time_created: '2026-03-10 00:17:05.800242'

@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/youse/Downloads/MLOPS Asg1/mlruns/666216755787229069/models/m-8205e1ad10a64341b1b246ae473b336c/artifacts
+creation_timestamp: 1773102655200
+experiment_id: '666216755787229069'
+last_updated_timestamp: 1773102669534
+model_id: m-8205e1ad10a64341b1b246ae473b336c
+model_type: null
+name: model
+source_run_id: 0282a940455340f6965d0e21d7dc635d
+status: 2
+status_message: null

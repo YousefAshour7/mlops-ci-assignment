@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/youse/Downloads/MLOPS Asg1/mlruns/666216755787229069/0282a940455340f6965d0e21d7dc635d/artifacts
+end_time: 1773102669552
+entry_point_name: ''
+experiment_id: '666216755787229069'
+lifecycle_stage: active
+run_id: 0282a940455340f6965d0e21d7dc635d
+run_name: lr=0.1_bs=64_ep=20
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1773102389939
+status: 3
+tags: []
+user_id: youse
