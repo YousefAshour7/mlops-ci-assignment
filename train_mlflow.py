@@ -27,7 +27,7 @@ batch_size = args.batch_size
 # MLflow Setup (IMPORTANT FIX)
 # -----------------------
 mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns"))
-mlflow.set_experiment("Assignment5_Yousef")
+mlflow.set_experiment("Default")
 
 run_name = f"lr={learning_rate}_bs={batch_size}_ep={epochs}"
 
