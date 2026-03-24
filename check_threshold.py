@@ -8,28 +8,25 @@ try:
     with open("model_info.txt", "r") as f:
         run_id = f.read().strip()
 
-    print(f"Loaded Run ID: {run_id}")
+    print(f"Run ID: {run_id}")
 
     client = mlflow.tracking.MlflowClient()
 
-    # Get metric history
-    metric_history = client.get_metric_history(run_id, "accuracy")
+    history = client.get_metric_history(run_id, "accuracy")
 
-    if not metric_history:
-        print(" ERROR: No accuracy metric found in MLflow")
+    if not history:
+        print("No accuracy found")
         sys.exit(1)
 
-    accuracy = metric_history[-1].value
-
+    accuracy = history[-1].value
     print(f"Final Accuracy: {accuracy}")
 
     if accuracy < 0.85:
-        print(" FAILED: Accuracy below threshold")
+        print("BELOW THRESHOLD")
         sys.exit(1)
     else:
-        print(" PASSED: Accuracy meets threshold")
+        print("ABOVE THRESHOLD")
 
 except Exception as e:
-    print(" EXCEPTION OCCURRED:")
-    print(str(e))
+    print("ERROR:", str(e))
     sys.exit(1)

@@ -6,13 +6,11 @@ import torchvision.transforms as transforms
 import mlflow
 import mlflow.pytorch
 import argparse
-import os
 
 # -----------------------
 # Hyperparameters
 # -----------------------
 parser = argparse.ArgumentParser()
-
 parser.add_argument("--learning_rate", type=float, default=0.01)
 parser.add_argument("--epochs", type=int, default=5)
 parser.add_argument("--batch_size", type=int, default=64)
@@ -24,16 +22,14 @@ epochs = args.epochs
 batch_size = args.batch_size
 
 # -----------------------
-# MLflow Setup (IMPORTANT FIX)
+# MLflow Setup
 # -----------------------
-mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns"))
-mlflow.set_experiment("Default")
+mlflow.set_tracking_uri("file:./mlruns")
+mlflow.set_experiment("Assignment5_Yousef")
 
 run_name = f"lr={learning_rate}_bs={batch_size}_ep={epochs}"
 
 with mlflow.start_run(run_name=run_name) as run:
-
-    run_id = run.info.run_id   # ✅ IMPORTANT
 
     mlflow.log_param("learning_rate", learning_rate)
     mlflow.log_param("epochs", epochs)
@@ -82,7 +78,6 @@ with mlflow.start_run(run_name=run_name) as run:
         total = 0
 
         for images, labels in train_loader:
-
             outputs = model(images)
             loss = criterion(outputs, labels)
 
@@ -109,10 +104,5 @@ with mlflow.start_run(run_name=run_name) as run:
     # -----------------------
     mlflow.pytorch.log_model(model, "model")
 
-    # -----------------------
-    # SAVE RUN ID (CRITICAL)
-    # -----------------------
     with open("model_info.txt", "w") as f:
-        f.write(run_id)
-
-    print(f"Run ID saved: {run_id}")
+        f.write(run.info.run_id)

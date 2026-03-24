@@ -24,6 +24,9 @@ jobs:
         run: |
           pip install torch torchvision mlflow dvc
 
+      - name: Clean MLflow directory
+        run: rm -rf mlruns
+
       - name: Pull Data
         run: |
           dvc pull || echo "No DVC remote, skipping"
