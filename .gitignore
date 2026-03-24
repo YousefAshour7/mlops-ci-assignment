@@ -1,6 +1,17 @@
+# Data
 data/
 *.csv
-*.pt
-*.pth
+
+# MLflow
 mlruns/
+mlflow.db
+
+# Python
 __pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store

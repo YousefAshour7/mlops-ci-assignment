@@ -6,6 +6,7 @@ import torchvision.transforms as transforms
 import mlflow
 import mlflow.pytorch
 import argparse
+import os
 
 # -----------------------
 # Hyperparameters
@@ -23,14 +24,16 @@ epochs = args.epochs
 batch_size = args.batch_size
 
 # -----------------------
-# MLflow Setup
+# MLflow Setup (IMPORTANT FIX)
 # -----------------------
-mlflow.set_tracking_uri("file:./mlruns")
-mlflow.set_experiment("Assignment3_Yousef")
+mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns"))
+mlflow.set_experiment("Assignment5_Yousef")
 
 run_name = f"lr={learning_rate}_bs={batch_size}_ep={epochs}"
 
-with mlflow.start_run(run_name=run_name):
+with mlflow.start_run(run_name=run_name) as run:
+
+    run_id = run.info.run_id   # ✅ IMPORTANT
 
     mlflow.log_param("learning_rate", learning_rate)
     mlflow.log_param("epochs", epochs)
@@ -98,7 +101,6 @@ with mlflow.start_run(run_name=run_name):
 
         print(f"Epoch {epoch+1}: Loss={avg_loss:.4f}, Accuracy={accuracy:.4f}")
 
-        # MLflow logging
         mlflow.log_metric("loss", avg_loss, step=epoch)
         mlflow.log_metric("accuracy", accuracy, step=epoch)
 
@@ -106,3 +108,11 @@ with mlflow.start_run(run_name=run_name):
     # Save model
     # -----------------------
     mlflow.pytorch.log_model(model, "model")
+
+    # -----------------------
+    # SAVE RUN ID (CRITICAL)
+    # -----------------------
+    with open("model_info.txt", "w") as f:
+        f.write(run_id)
+
+    print(f"Run ID saved: {run_id}")
