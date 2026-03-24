@@ -21,18 +21,15 @@ jobs:
           python-version: "3.10"
 
       - name: Install Dependencies
-        run: |
-          pip install torch torchvision mlflow dvc
+        run: pip install torch torchvision mlflow dvc
 
       - name: Pull Data
-        run: |
-          dvc pull || true
+        run: dvc pull || echo "No DVC remote, skipping"
 
       - name: Train Model
         env:
           MLFLOW_TRACKING_URI: file:./mlruns
-        run: |
-          python train_mlflow.py
+        run: python train_mlflow.py
 
       - name: Upload Run Info
         uses: actions/upload-artifact@v4
@@ -40,7 +37,6 @@ jobs:
           name: model-info
           path: model_info.txt
 
-      # 🔥 FIX: SAVE MLflow data
       - name: Upload MLflow Runs
         uses: actions/upload-artifact@v4
         with:
@@ -61,15 +57,13 @@ jobs:
           python-version: "3.10"
 
       - name: Install Dependencies
-        run: |
-          pip install mlflow
+        run: pip install mlflow
 
       - name: Download Run Info
         uses: actions/download-artifact@v4
         with:
           name: model-info
 
-      # 🔥 FIX: RESTORE MLflow data
       - name: Download MLflow Runs
         uses: actions/download-artifact@v4
         with:
@@ -79,9 +73,7 @@ jobs:
       - name: Check Threshold
         env:
           MLFLOW_TRACKING_URI: file:./mlruns
-        run: |
-          python check_threshold.py
+        run: python check_threshold.py
 
       - name: Mock Deploy
-        run: |
-          echo "Building Docker image for Run ID: $(cat model_info.txt)"
+        run: echo "Building Docker image for Run ID: $(cat model_info.txt)"
