@@ -2,32 +2,34 @@ import mlflow
 import os
 import sys
 
-mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns"))
+try:
+    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns"))
 
-with open("model_info.txt", "r") as f:
-    run_id = f.read().strip()
+    with open("model_info.txt", "r") as f:
+        run_id = f.read().strip()
 
-client = mlflow.tracking.MlflowClient()
+    print(f"Loaded Run ID: {run_id}")
 
-# Get full run data
-run = client.get_run(run_id)
+    client = mlflow.tracking.MlflowClient()
 
-# 🔥 Get ALL metric history
-metric_history = client.get_metric_history(run_id, "accuracy")
+    # Get metric history
+    metric_history = client.get_metric_history(run_id, "accuracy")
 
-if not metric_history:
-    print("❌ No accuracy metric found")
+    if not metric_history:
+        print(" ERROR: No accuracy metric found in MLflow")
+        sys.exit(1)
+
+    accuracy = metric_history[-1].value
+
+    print(f"Final Accuracy: {accuracy}")
+
+    if accuracy < 0.85:
+        print(" FAILED: Accuracy below threshold")
+        sys.exit(1)
+    else:
+        print(" PASSED: Accuracy meets threshold")
+
+except Exception as e:
+    print(" EXCEPTION OCCURRED:")
+    print(str(e))
     sys.exit(1)
-
-# Take last logged value
-accuracy = metric_history[-1].value
-
-print(f"Run ID: {run_id}")
-print(f"Final Accuracy: {accuracy}")
-
-# Threshold check
-if accuracy < 0.85:
-    print("❌ Accuracy below threshold")
-    sys.exit(1)
-else:
-    print("✅ Accuracy passed")
